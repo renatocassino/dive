@@ -2,6 +2,13 @@
 
 Dive is a client debugger that use Devel lib to run debugger in terminal.
 
+## Installation
+
+```bash
+$ go get -u github.com/go-delve/delve/cmd/dlv
+$ go get -u github.com/tacnoman/dive/cmd/dive
+```
+
 ### But, why you need use Dive?
 
 In Devel, when you start a client you must create the breakpoints before.
