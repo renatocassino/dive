@@ -134,6 +134,17 @@ func WalkParrallel(dir, pattern string) {
 func main() {
 	WalkParrallel(".", "// @brk")
 
+	if len(os.Args) < 2 {
+		fmt.Println("You must pass go filename as a parameter.")
+		return
+	}
+
+	filename := os.Args[1]
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		fmt.Println(fmt.Sprintf("The filename %s does not exist in this path", filename))
+		return
+	}
+
 	var content []string
 	for index, fileLine := range listOfFiles {
 		lineContent := fmt.Sprintf("break name%d %s:%d", index, fileLine.File, fileLine.Line)
@@ -148,14 +159,12 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println("Running command \"dlv debug main.go --init \"/tmp/__dive-lines\"")
-	cmd := exec.Command("dlv debug ./main.go --init \"/tmp/__dive-lines\"")
-	stdout, err := cmd.Output()
+	command := fmt.Sprintf("dlv debug %s --init \"/tmp/__dive-lines\"", filename)
+	fmt.Println(fmt.Sprintf("Running command: %s", command))
+	cmd := exec.Command(command)
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	err = cmd.Run()
 
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-
-	fmt.Print(string(stdout))
+	fmt.Println(err)
 }
