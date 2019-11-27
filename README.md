@@ -6,7 +6,7 @@ Dive is a client debugger that use Devel lib to run debugger in terminal.
 
 ```bash
 $ go get -u github.com/go-delve/delve/cmd/dlv
-$ go get -u github.com/tacnoman/dive/cmd/dive
+$ go get -u github.com/tacnoman/dive
 ```
 
 ### But, why you need use Dive?
